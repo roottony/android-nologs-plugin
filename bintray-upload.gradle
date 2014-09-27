@@ -1,0 +1,75 @@
+apply plugin: 'com.jfrog.bintray'
+
+import java.text.SimpleDateFormat
+
+def globalVersion = new Version(project.version)
+
+group = project.group
+version = globalVersion
+status = version.status
+
+bintray {
+    user = bintrayUser
+    key = bintrayKey
+    configurations = ['archives']
+
+    dryRun = false
+    publish = false
+
+    pkg {
+        repo = bintrayRepo
+        name = bintrayPackage
+        desc = bintrayDescription
+        websiteUrl = bintrayWebsiteUrl
+        issueTrackerUrl = bintrayIssueTrackerUrl
+        vcsUrl = bintrayVcsUrl
+        licenses = ['Apache-2.0']
+        labels = ['android', 'gradle', 'plugin', 'log']
+    }
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourceJar
+    archives javadocJar
+}
+
+bintrayUpload.dependsOn ':build'
+
+class Version {
+    String originalVersion
+    String thisVersion
+    String status
+    Date buildTime
+
+    Version(String versionValue) {
+        buildTime = new Date()
+        originalVersion = versionValue
+        if (originalVersion.endsWith('-SNAPSHOT')) {
+            status = 'integration'
+            thisVersion = originalVersion.substring(0, originalVersion.length() - 'SNAPSHOT'.length()) + getTimestamp()
+        } else {
+            status = 'release'
+            thisVersion = versionValue
+        }
+    }
+
+    String getTimestamp() {
+        // Convert local file timestamp to UTC
+        def format = new SimpleDateFormat('yyyyMMddHHmmss')
+        format.setCalendar(Calendar.getInstance(TimeZone.getTimeZone('UTC')));
+        return format.format(buildTime)
+    }
+
+    String toString() {
+        thisVersion
+    }
+}

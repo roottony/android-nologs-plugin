@@ -1,8 +1,17 @@
 version = '0.9-SNAPSHOT'
 group = 'com.roottony.gradle'
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:0.5"
+    }
+}
+
 apply plugin: 'groovy'
-apply plugin: 'maven'
+apply from: 'bintray-upload.gradle'
 
 repositories {
     mavenCentral()
@@ -11,13 +20,6 @@ repositories {
 dependencies {
     compile gradleApi()
     compile localGroovy()
-}
-
-uploadArchives {
-    repositories {
-        // Add other pom properties here if you want (developer details / licenses)
-        mavenInstaller()
-    }
 }
 
 // Make sure all code is compiled, tested and checked before uploadArchives.
