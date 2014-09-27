@@ -1,0 +1,24 @@
+version = '0.9-SNAPSHOT'
+group = 'com.roottony.gradle'
+
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+}
+
+uploadArchives {
+    repositories {
+        // Add other pom properties here if you want (developer details / licenses)
+        mavenInstaller()
+    }
+}
+
+// Make sure all code is compiled, tested and checked before uploadArchives.
+uploadArchives.dependsOn ':build'
