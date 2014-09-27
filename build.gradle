@@ -1,4 +1,4 @@
-version = '0.9-SNAPSHOT'
+version = '0.9'
 group = 'com.roottony.gradle'
 
 buildscript {

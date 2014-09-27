@@ -6,6 +6,7 @@ build/
 
 # Gradle dir
 .gradle/
+gradle.properties
 
 # IntelliJ IDEA files
 .idea/

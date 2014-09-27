@@ -52,7 +52,7 @@ Setup
             // apply android gradle plugin here
             
             // Version may change, see the latest version on jcenter
-            classpath 'com.roottony.gradle:nologs:0.9-SNAPSHOT'
+            classpath 'com.roottony.gradle:nologs:0.9'
         }
     }
     apply plugin: 'com.roottony.nologs'
